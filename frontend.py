@@ -23,9 +23,13 @@ def show_discussion_history(history_placeholder): # je veux pouvoir afficher les
 		for message in streamlit.session_state.chat_agent.history:
 			if message["role"] != "system":
 				with streamlit.chat_message(message["role"]):
-					streamlit.write(message["content"])
-
-
+					if type(message["content"]) == str:
+						streamlit.write(message["content"])
+					elif type(message["content"]) == list:
+						textual_content = message["content"][0]["text"]
+						image_b64 = message["content"][1]["image_url"]["url"]
+						streamlit.write(textual_content)
+						streamlit.image(image_b64)
 
 
 
